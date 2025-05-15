@@ -11,7 +11,7 @@ env_vars["simcc-front"]="VITE_API_KEY VITE_URL_GERAL VITE_URL_GERAL_ADM VITE_REF
 default_vars["simcc-admin"]="simcc_admin postgres simcc-postgres postgres 5432"
 default_vars["simcc-back"]="simcc postgres postgres simcc-postgres 5432 simcc_admin postgres postgres simcc-postgres 5432 / http://simcc-back-old:8080/ True search_terms /"
 default_vars["simcc-back-old"]="simcc postgres postgres simcc-postgres simcc_admin 5432 ... True /"
-default_vars["simcc-front"]="... http://localhost:8000/ http://localhost:9090/ ... ... false ... true ... ... ../cert.json ... ... ... ... ... ... ... localhost search_terms"
+default_vars["simcc-front"]="... http://localhost:8000/ http://localhost:9090/ ... ... false ... true ... ... ./cert.json ... ... ... ... ... ... ... localhost search_terms"
 
 
 read -p "Do you want to fill in the .env files manually? (y/n): " answer
