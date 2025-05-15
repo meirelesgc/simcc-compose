@@ -1,0 +1,80 @@
+services:
+  simcc-postgres:
+    image: pgvector/pgvector:pg17
+    container_name: simcc-postgres
+    ports:
+      - "5432:5432"
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: postgres
+        POSTGRES_PASSWORD: postgres
+    volumes:
+      - simcc-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  simcc-front:
+    image: simcc-front
+    container_name: simcc-front
+    build:
+      context: simcc-front
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    env_file: ./simcc-front/.env
+    depends_on:
+      - simcc-back
+    restart: unless-stopped
+
+  simcc-back:
+    image: simcc-back
+    container_name: simcc-back
+    build:
+      context: simcc-back
+      dockerfile: Dockerfile
+    ports:
+      - "8088:8000"
+    env_file: ./simcc-back/.env
+    volumes:
+      - 'simcc-back-storage:/app/storage'
+    depends_on:
+      - simcc-postgres
+    restart: unless-stopped
+
+  simcc-back-old:
+    image: simcc-back-old
+    container_name: simcc-back-old
+    build:
+      context: simcc-back-old
+      dockerfile: Dockerfile
+    env_file: ./simcc-back-old/.env
+    volumes:
+      - simcc-back-old-storage:/app/Files
+    restart: unless-stopped
+
+  simcc-back-admin:
+    image: simcc-back-admin
+    container_name: simcc-back-admin
+    build:
+      context: simcc-admin
+      dockerfile: Dockerfile
+    ports:
+      - "8880:8080"
+    env_file: ./simcc-admin/.env
+    volumes:
+      - simcc-back-admin-files:/app/files
+    restart: unless-stopped
+
+volumes:
+  simcc-postgres:
+    name: simcc-postgres
+  simcc-back-storage:
+    name: simcc-back-storage
+  simcc-back-old-storage:
+    name: simcc-back-old-storage
+  simcc-back-admin-files:
+    name: simcc-back-admin-files
