@@ -9,7 +9,7 @@ env_vars["simcc-back-old"]="DATABASE_NAME DATABASE_USER DATABASE_PASSWORD DATABA
 env_vars["simcc-front"]="VITE_API_KEY VITE_URL_GERAL VITE_URL_GERAL_ADM VITE_REFRESH_TOKEN VITE_CLIENT_ID VITE_VERSION VITE_EXTERNAL_INSTITUTION_ID VITE_SIMCC VITE_PUBLIC_MAPBOX_TOKEN VITE_GA4_PROPERTY_ID VITE_GOOGLE_APPLICATION_CREDENTIALS VITE_APIKEY VITE_AUTHDOMAIN VITE_PROJECTID VITE_STORAGEBUCKET VITE_MESSAGINGSENDERID VITE_APPID VITE_MEASUREMENTID VITE_URL_SITE VITE_BANCO_FIREBASE_SEARCH"
 
 default_vars["simcc-admin"]="simcc_admin postgres simcc-postgres postgres 5432"
-default_vars["simcc-back"]="simcc postgres postgres simcc-postgres 5432 simcc_admin postgres postgres simcc-postgres 5432 / http://simcc-back-old:8080/ True search_terms /"
+default_vars["simcc-back"]="simcc postgres postgres simcc-postgres 5432 simcc_admin postgres postgres simcc-postgres 5432 / http://simcc-back-old:8000/ True search_terms /"
 default_vars["simcc-back-old"]="simcc postgres postgres simcc-postgres simcc_admin 5432 ... True /"
 default_vars["simcc-front"]="... http://localhost:8000/ http://localhost:9090/ ... ... false ... true ... ... ./cert.json ... ... ... ... ... ... ... localhost search_terms"
 
