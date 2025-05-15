@@ -48,6 +48,30 @@ else
     echo "Script simcc-admin/init.data.sql não encontrado. Pulando execução para o banco '$DB2'."
 fi
 
+# --- Apache Hop
+#!/bin/bash
+
+FILE="Jade-Extrator-Hop/metadata/dataset/csv/research_lines.csv"
+
+if [ ! -f "$FILE" ]; then
+    echo "File not found. Downloading..."
+    wget --no-check-certificate -O "$FILE" "https://ftp.cnpq.br/pub/Gestao_BI/DGP/Linhas%20de%20Pesquisa/Censo%202023%20linhas%20de%20pesquisa.csv"
+else
+    echo "File already exists. No action needed."
+fi
+
+docker run -it --rm \
+    --network=simcc-compose_default \
+    --env HOP_LOG_LEVEL=Basic \
+    --env HOP_FILE_PATH="${PROJECT_HOME}/metadata/dataset/workflow/BaseData.hwf" \
+    --env HOP_PROJECT_CONFIG_FILE_NAME="dev.project-config.json" \
+    --env HOP_PROJECT_FOLDER=/files \
+    --env HOP_PROJECT_NAME=Jade-Extrator-Hop \
+    --env HOP_RUN_CONFIG=local \
+    --name hop-daily-routine \
+    -v "$(pwd)/Jade-Extrator-Hop:/files" \
+    apache/hop:2.13.0
+
 docker compose down "$CONTAINER_NAME"
 
 echo "Processo concluído."

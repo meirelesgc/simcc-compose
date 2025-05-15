@@ -1,9 +1,16 @@
 #!/bin/bash
 
-docker exec simcc-back poetry run python /app/routines/soap_lattes.py
+set -e
 
-mkdir -p Jade-Extrator-Hop/metadata/dataset/xml
-docker cp simcc-back:/app/storage/xml/. Jade-Extrator-Hop/metadata/dataset/xml/
+handle_error() {
+    echo -e "\n\nHouve um erro. Encerrando o script."
+    exit 1
+}
+
+docker exec simcc-back poetry run python /app/routines/soap_lattes.py || handle_error
+
+mkdir -p Jade-Extrator-Hop/metadata/dataset/xml || handle_error
+docker cp simcc-back:/app/storage/xml/. Jade-Extrator-Hop/metadata/dataset/xml/ || handle_error
 
 docker run -it --rm \
     --network=simcc-compose_default \
@@ -15,4 +22,12 @@ docker run -it --rm \
     --env HOP_RUN_CONFIG=local \
     --name hop-daily-routine \
     -v "$(pwd)/Jade-Extrator-Hop:/files" \
-    apache/hop:2.13.0
+    apache/hop:2.13.0 || handle_error
+
+docker exec simcc-back poetry run python /app/routines/population.py || handle_error
+docker exec simcc-back poetry run python /app/routines/pog.py || handle_error
+docker exec simcc-back poetry run python /app/routines/production.py || handle_error
+docker exec simcc-back poetry run python /app/routines/researcher_image.py || handle_error
+docker exec simcc-back poetry run python /app/routines/researcher_indprod.py || handle_error
+docker exec simcc-back poetry run python /app/routines/program_indprod.py || handle_error
+docker exec simcc-back poetry run python /app/routines/powerBI.py || handle_error
