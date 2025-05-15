@@ -42,6 +42,11 @@ if [ -f "simcc-admin/init.sql" ]; then
 else
     echo "Script simcc-admin/init.sql não encontrado. Pulando execução para o banco '$DB2'."
 fi
+if [ -f "simcc-admin/init.data.sql" ]; then
+    docker exec -i "$CONTAINER_NAME" psql -U postgres -d "$DB2" < simcc-admin/init.data.sql
+else
+    echo "Script simcc-admin/init.data.sql não encontrado. Pulando execução para o banco '$DB2'."
+fi
 
 docker compose down "$CONTAINER_NAME"
 
