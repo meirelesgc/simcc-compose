@@ -55,7 +55,7 @@ FILE="Jade-Extrator-Hop/metadata/dataset/csv/research_lines.csv"
 
 if [ ! -f "$FILE" ]; then
     echo "File not found. Downloading..."
-    wget --no-check-certificate -O "$FILE" "https://ftp.cnpq.br/pub/Gestao_BI/DGP/Linhas%20de%20Pesquisa/Censo%202023%20linhas%20de%20pesquisa.csv"
+    wget --no-check-certificate -O "$FILE" "http://ftp.cnpq.br/pub/Gestao_BI/DGP/Linhas%20de%20Pesquisa/Censo%202023%20linhas%20de%20pesquisa.csv"
 else
     echo "File already exists. No action needed."
 fi
