@@ -49,7 +49,6 @@ else
 fi
 
 # --- Apache Hop
-#!/bin/bash
 
 FILE="Jade-Extrator-Hop/metadata/dataset/csv/research_lines.csv"
 

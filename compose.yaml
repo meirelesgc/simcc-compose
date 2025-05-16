@@ -72,6 +72,8 @@ services:
     depends_on:
       simcc-postgres:
         condition: service_healthy
+      simcc-back:
+        condition: service_started
     volumes:
       - simcc-back-admin-files:/app/files
     restart: unless-stopped
